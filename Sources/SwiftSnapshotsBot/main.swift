@@ -64,7 +64,7 @@ while true {
 
                         // FIXME: Simplify the if condation.
                         if date.toISODate(region: currentRegion)!.compare(.isLater(than: test.lastReleaseDate)),
-                            date.toISODate(region: currentRegion)!.compare(.isToday),
+                            !date.toISODate(region: currentRegion)!.compare(.isToday),
                             !date.toISODate(region: currentRegion)!.compare(.isSameDay(test.lastReleaseDate)) {
                             let TextBody: String = date + "https://swift.org" + downloadLink
                             print(TextBody)
