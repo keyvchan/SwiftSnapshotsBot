@@ -15,6 +15,7 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-log.git", from: "1.2.0"),
         .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.3.0"),
         .package(url: "https://github.com/malcommac/SwiftDate.git", from: "6.1.0"),
+        .package(url: "https://github.com/IBM-Swift/HeliumLogger", from: "1.9.0"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
@@ -26,6 +27,7 @@ let package = Package(
                 .product(name: "Logging", package: "swift-log"),
                 .product(name: "SwiftSoup", package: "SwiftSoup"),
                 .product(name: "SwiftDate", package: "SwiftDate"),
+                .product(name: "HeliumLogger", package: "HeliumLogger"),
             ]
         ),
         .testTarget(
