@@ -2,12 +2,18 @@
 // There are various bug need to solve.
 import AsyncHTTPClient
 import Foundation
+import HeliumLogger
 import Logging
 import SwiftDate
 import SwiftSoup
 
 // TODO: Using logger to print nice log to console.
+HeliumLogger.bootstrapSwiftLog { s in
+    s.colored = true
+}
+
 let logger = Logger(label: "keyvchan")
+
 let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
 
 // TODO: Get all arguments from a specific file or command line.
