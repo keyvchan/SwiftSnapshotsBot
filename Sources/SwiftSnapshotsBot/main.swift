@@ -56,7 +56,7 @@ while true {
                         /// To send a message to channel, there is three requirments:
                         ///     1. The new date must later than last release date.
                         ///     2. In case the isLater and isEarlier in SwiftDate trate the same day as always true, we need to make sure the new date and the last release date is not the same.
-                        ///     3. The program may be started after release a couple of version which is the usual case. We don't wanna got notification for all early release.
+                        ///     3. The program may be started after release a couple of version which is the usual case. We don't wanna got notification for all eariler release.
                         ///        So we just check the last release in recent time.
                         print("later than last release date? ", date.toISODate(region: currentRegion)!.compare(.isLater(than: test.lastReleaseDate)))
                         print("Is the same day with last release date? ", date.toISODate(region: currentRegion)!.compare(.isSameDay(test.lastReleaseDate)))
@@ -64,8 +64,8 @@ while true {
 
                         // FIXME: Simplify the if condation.
                         if date.toISODate(region: currentRegion)!.compare(.isLater(than: test.lastReleaseDate)),
-                            !date.toISODate(region: currentRegion)!.compare(.isToday),
-                            !date.toISODate(region: currentRegion)!.compare(.isSameDay(test.lastReleaseDate)) {
+                            !date.toISODate(region: currentRegion)!.compare(.isSameDay(test.lastReleaseDate)),
+                            date.toISODate(region: currentRegion)!.compare(.isToday) {
                             let TextBody: String = date + "https://swift.org" + downloadLink
                             print(TextBody)
                             let TGBotAPIURL = "https://api.telegram.org/bot\(API_Token)/\(Action)?chat_id=\(ChatID)&text=\(TextBody)"
