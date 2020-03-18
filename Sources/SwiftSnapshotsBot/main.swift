@@ -58,33 +58,41 @@ while true {
                         ///     2. In case the isLater and isEarlier in SwiftDate trate the same day as always true, we need to make sure the new date and the last release date is not the same.
                         ///     3. The program may be started after release a couple of version which is the usual case. We don't wanna got notification for all eariler release.
                         ///        So we just check the last release in recent time.
+                        ///
                         print("later than last release date? ", date.toISODate(region: currentRegion)!.compare(.isLater(than: test.lastReleaseDate)))
                         print("Is the same day with last release date? ", date.toISODate(region: currentRegion)!.compare(.isSameDay(test.lastReleaseDate)))
                         print("Is today? ", date.toISODate(region: currentRegion)!.compare(.isToday))
 
                         // FIXME: Simplify the if condation.
-                        if date.toISODate(region: currentRegion)!.compare(.isLater(than: test.lastReleaseDate)),
-                            !date.toISODate(region: currentRegion)!.compare(.isSameDay(test.lastReleaseDate)),
-                            date.toISODate(region: currentRegion)!.compare(.isToday) {
-                            let TextBody: String = date + "https://swift.org" + downloadLink
-                            print(TextBody)
-                            let TGBotAPIURL = "https://api.telegram.org/bot\(API_Token)/\(Action)?chat_id=\(ChatID)&text=\(TextBody)"
-                            // TODO: The header defination may be duplicated.
-                            var request = try HTTPClient.Request(url: TGBotAPIURL, method: .GET)
-                            request.headers.add(name: "User-Agent", value: "Swift HTTPClient")
+                        if date.toISODate(region: currentRegion)!.compare(.isSameDay(test.lastReleaseDate)) {
+                            print("Today is same day with last release date")
+                        } else {
+                            if date.toISODate(region: currentRegion)!.compare(.isLater(than: test.lastReleaseDate)) {
+                                // We don't want notification for a not recently release, if date is today, we will get notification.
+                                if date.toISODate(region: currentRegion)!.compare(.isToday) {
+                                    let TextBody: String = date + "https://swift.org" + downloadLink
+                                    print(TextBody)
+                                    let TGBotAPIURL = "https://api.telegram.org/bot\(API_Token)/\(Action)?chat_id=\(ChatID)&text=\(TextBody)"
+                                    // TODO: The header defination may be duplicated.
+                                    var request = try HTTPClient.Request(url: TGBotAPIURL, method: .GET)
+                                    request.headers.add(name: "User-Agent", value: "Swift HTTPClient")
 
-                            // TODO: There are a lots of telegram bot features to explore.
-                            httpClient.execute(request: request).whenComplete { result in
-                                switch result {
-                                case let .failure(error):
-                                    print(error)
-                                case let .success(response):
-                                    if var body = response.body {
-                                        if let content = body.readString(length: body.readableBytes) {
-                                            print(content)
+                                    // TODO: There are a lots of telegram bot features to explore.
+                                    httpClient.execute(request: request).whenComplete { result in
+                                        switch result {
+                                        case let .failure(error):
+                                            print(error)
+                                        case let .success(response):
+                                            if var body = response.body {
+                                                if let content = body.readString(length: body.readableBytes) {
+                                                    print(content)
+                                                }
+                                            }
                                         }
                                     }
                                 }
+                            } else {
+                                print("Eariler than last release day")
                             }
                         }
                         test.lastReleaseDate = date.toISODate(region: currentRegion)!
