@@ -1,15 +1,17 @@
 // It just works.
 // There are various bug need to solve.
 import AsyncHTTPClient
+import ConsoleKit
 import Foundation
-import HeliumLogger
 import Logging
 import SwiftDate
 import SwiftSoup
 
 // TODO: Using logger to print nice log to console.
-HeliumLogger.bootstrapSwiftLog { s in
-    s.colored = true
+LoggingSystem.bootstrap { _ in
+    let console = Terminal()
+    let consoleLogger = ConsoleLogger(label: "keyvchan", console: console)
+    return consoleLogger
 }
 
 let logger = Logger(label: "keyvchan")
