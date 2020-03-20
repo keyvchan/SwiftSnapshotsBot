@@ -42,7 +42,7 @@ while true {
     httpClient.execute(request: SwiftWebPage).whenComplete { result in
         switch result {
         case let .failure(error):
-            print(error)
+            logger.error("\(error)")
         case let .success(response):
             if var body = response.body {
                 if let content = body.readString(length: body.readableBytes) {
@@ -73,8 +73,9 @@ while true {
                                 // We don't want notification for a not recently release, if date is today, we will get notification.
                                 if date.toISODate(region: currentRegion)!.compare(.isToday) {
                                     let TextBody: String = date + "https://swift.org" + downloadLink
-                                    print(TextBody)
+                                    logger.debug("\(TextBody)")
                                     let TGBotAPIURL = "https://api.telegram.org/bot\(API_Token)/\(Action)?chat_id=\(ChatID)&text=\(TextBody)"
+                                    logger.info("\(TGBotAPIURL)")
                                     // TODO: The header defination may be duplicated.
                                     var request = try HTTPClient.Request(url: TGBotAPIURL, method: .GET)
                                     request.headers.add(name: "User-Agent", value: "Swift HTTPClient")
@@ -99,9 +100,9 @@ while true {
                         }
                         test.lastReleaseDate = date.toISODate(region: currentRegion)!
                     } catch let Exception.Error(_, message) {
-                        print(message)
+                        logger.error("\(message)")
                     } catch {
-                        print("error")
+                        logger.critical("error")
                     }
                 }
             }
