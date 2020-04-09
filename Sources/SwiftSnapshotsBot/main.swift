@@ -55,10 +55,9 @@ while true {
                         let date = try time.attr("datetime")
                         let downloadLink = try link.attr("href")
                         logger.info("Download link: \(link)")
-                        logger.info("Newest release date: \(date)")
 
                         let currentRegion = Region(calendar: Calendars.gregorian, zone: Zones.current, locale: Locales.current)
-                        logger.info("\(date.toISODate()!.convertTo(region: currentRegion).toString())")
+                        logger.info("Latest release date: \(date.toISODate()!.convertTo(region: currentRegion).toString())")
                         logger.info("Most recently record date: \(test.lastReleaseDate)")
 
                         /// To send a message to channel, there is three requirments:
@@ -67,33 +66,35 @@ while true {
                         ///     3. The program may be started after release a couple of version which is the usual case. We don't wanna got notification for all eariler release.
                         ///        So we just check the last release in recent time.
                         if date.toISODate(region: currentRegion)!.compare(.isSameDay(test.lastReleaseDate)) {
-                            logger.warning("Today is the same day with last release date.")
+                            logger.warning("Comparing \(date.toISODate()!.toISO()) and \(test.lastReleaseDate.toISO())")
                         } else {
                             if date.toISODate(region: currentRegion)!.compare(.isLater(than: test.lastReleaseDate)) {
                                 // We don't want notification for a not recently release, if date is today, we will get notification.
-                                if date.toISODate(region: currentRegion)!.compare(.isToday) {
-                                    let TextBody: String = date + "https://swift.org" + downloadLink
-                                    logger.debug("\(TextBody)")
-                                    let TGBotAPIURL = "https://api.telegram.org/bot\(API_Token)/\(Action)?chat_id=\(ChatID)&text=\(TextBody)"
-                                    logger.info("\(TGBotAPIURL)")
-                                    // TODO: The header defination may be duplicated.
-                                    var request = try HTTPClient.Request(url: TGBotAPIURL, method: .GET)
-                                    request.headers.add(name: "User-Agent", value: "Swift HTTPClient")
+                                logger.info("Later than last release date")
+                                // if date.toISODate(region: currentRegion)!.compare(.isToday) {
+                                logger.info("Is today")
+                                let TextBody: String = date + "https://swift.org" + downloadLink
+                                logger.debug("\(TextBody)")
+                                let TGBotAPIURL = "https://api.telegram.org/bot\(API_Token)/\(Action)?chat_id=\(ChatID)&text=\(TextBody)"
+                                logger.info("\(TGBotAPIURL)")
+                                // TODO: The header defination may be duplicated.
+                                var request = try HTTPClient.Request(url: TGBotAPIURL, method: .GET)
+                                request.headers.add(name: "User-Agent", value: "Swift HTTPClient")
 
-                                    // TODO: There are a lots of telegram bot features to explore.
-                                    httpClient.execute(request: request).whenComplete { result in
-                                        switch result {
-                                        case let .failure(error):
-                                            logger.error("\(error)")
-                                        case let .success(response):
-                                            if var body = response.body {
-                                                if let content = body.readString(length: body.readableBytes) {
-                                                    logger.info("The remote content: \(content)")
-                                                }
+                                // TODO: There are a lots of telegram bot features to explore.
+                                httpClient.execute(request: request).whenComplete { result in
+                                    switch result {
+                                    case let .failure(error):
+                                        logger.error("\(error)")
+                                    case let .success(response):
+                                        if var body = response.body {
+                                            if let content = body.readString(length: body.readableBytes) {
+                                                logger.info("The remote content: \(content)")
                                             }
                                         }
                                     }
                                 }
+                                // }
                             } else {
                                 logger.warning("Eariler than last release day")
                             }
