@@ -65,7 +65,7 @@ while true {
                         ///     2. In case the isLater and isEarlier in SwiftDate trate the same day as always true, we need to make sure the new date and the last release date is not the same.
                         ///     3. The program may be started after release a couple of version which is the usual case. We don't wanna got notification for all eariler release.
                         ///        So we just check the last release in recent time.
-                        if date.toISODate(region: currentRegion)!.compare(.isSameDay(test.lastReleaseDate)) {
+                        if date.toISODate()!.compareCloseTo(test.lastReleaseDate, precision: 1.hours.timeInterval) {
                             logger.warning("Comparing \(date.toISODate()!.toISO()) and \(test.lastReleaseDate.toISO())")
                         } else {
                             if date.toISODate(region: currentRegion)!.compare(.isLater(than: test.lastReleaseDate)) {
