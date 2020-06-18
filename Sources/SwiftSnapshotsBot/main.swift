@@ -53,7 +53,8 @@ while true {
                         let link: Element = try doc.select("body main #trunk-development-master+p+table tbody tr td span a").first()!
 
                         let date = try time.attr("datetime")
-                        let downloadLink = try link.attr("href")
+                        var downloadLink = try link.attr("href")
+                        downloadLink = "https://swift.org\(downloadLink)"
                         logger.info("Download link: \(link)")
 
                         let currentRegion = Region(calendar: Calendars.gregorian, zone: Zones.current, locale: Locales.current)
@@ -73,13 +74,42 @@ while true {
                                 logger.info("Later than last release date")
                                 // if date.toISODate(region: currentRegion)!.compare(.isToday) {
                                 logger.info("Is today")
-                                let TextBody: String = date + "https://swift.org" + downloadLink
-                                logger.debug("\(TextBody)")
-                                let TGBotAPIURL = "https://api.telegram.org/bot\(API_Token)/\(Action)?chat_id=\(ChatID)&text=\(TextBody)"
+                                let TextBody: String = """
+                                Click the button down blow to download:
+
+                                macOS: 
+                                \(downloadLink)
+
+                                """
+                                /// macOS: [link](\(downloadLink))
+                                let button1 = """
+                                { 
+                                    "text":"macOS", 
+                                    "url": "\(downloadLink)" 
+                                }
+                                """
+                                logger.debug("\(button1)")
+
+                                // let TGBotAPIURL = "https://api.telegram.org/bot\(API_Token)/\(Action)?chat_id=\(ChatID)&text=\(TextBody)"
+                                let TGBotAPIURL = "https://api.telegram.org/bot\(API_Token)/\(Action)"
                                 logger.info("\(TGBotAPIURL)")
                                 // TODO: The header defination may be duplicated.
-                                var request = try HTTPClient.Request(url: TGBotAPIURL, method: .GET)
+                                var request = try HTTPClient.Request(url: TGBotAPIURL, method: .POST)
                                 request.headers.add(name: "User-Agent", value: "Swift HTTPClient")
+                                request.headers.add(name: "Content-Type", value: " application/json")
+                                request.body = .string("""
+                                { 
+                                    "chat_id": "\(ChatID)", 
+                                    "text": "\(TextBody)", 
+                                    "reply_markup": { 
+                                        "inline_keyboard": [
+                                            [
+                                                \(button1)
+                                            ]
+                                        ]
+                                    } 
+                                }
+                                """)
 
                                 // TODO: There are a lots of telegram bot features to explore.
                                 httpClient.execute(request: request).whenComplete { result in
