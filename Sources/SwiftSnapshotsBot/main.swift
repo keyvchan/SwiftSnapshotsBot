@@ -75,7 +75,7 @@ while true {
                                 // if date.toISODate(region: currentRegion)!.compare(.isToday) {
                                 logger.info("Is today")
                                 let TextBody: String = """
-                                Click the button down blow to download:
+                                Click the button below to download:
 
                                 macOS: 
                                 \(downloadLink)
