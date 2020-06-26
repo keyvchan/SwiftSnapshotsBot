@@ -77,8 +77,7 @@ while true {
                                 let TextBody: String = """
                                 Click the button below to download:
 
-                                macOS: 
-                                \(downloadLink)
+                                <b>macOS:</b> \(downloadLink)
 
                                 """
                                 /// macOS: [link](\(downloadLink))
@@ -107,7 +106,8 @@ while true {
                                                 \(button1)
                                             ]
                                         ]
-                                    } 
+                                    },
+                                    "parse_mode": "HTML"
                                 }
                                 """)
 
