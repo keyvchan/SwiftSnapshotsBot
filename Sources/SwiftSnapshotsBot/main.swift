@@ -52,10 +52,15 @@ while true {
                         let time: Element = try doc.select("body main #trunk-development-master+p+table tbody tr td time").first()!
                         let link: Element = try doc.select("body main #trunk-development-master+p+table tbody tr td span a").first()!
 
+                        let linkOfLinux: Element = try doc.select("body main #trunk-development-master+p+table tbody tr+tr+tr+tr td span a").first()!
+
                         let date = try time.attr("datetime")
                         var downloadLink = try link.attr("href")
+                        var downloadLinkOfLinux = try linkOfLinux.attr("href")
                         downloadLink = "https://swift.org\(downloadLink)"
+                        downloadLinkOfLinux = "https://swift.org\(downloadLinkOfLinux)"
                         logger.info("Download link: \(link)")
+                        logger.info("Download link: \(linkOfLinux)")
 
                         let currentRegion = Region(calendar: Calendars.gregorian, zone: Zones.current, locale: Locales.current)
                         logger.info("Latest release date: \(date.toISODate()!.convertTo(region: currentRegion).toString())")
@@ -79,12 +84,22 @@ while true {
 
                                 <b>macOS:</b> \(downloadLink)
 
+                                <b>Ubuntu 20.04:</b> \(downloadLinkOfLinux)
+
                                 """
                                 /// macOS: [link](\(downloadLink))
                                 let button1 = """
                                 { 
                                     "text":"macOS", 
                                     "url": "\(downloadLink)" 
+                                }
+                                """
+                                logger.debug("\(button1)")
+
+                                let button2 = """
+                                { 
+                                    "text":"Ubuntu 20.04", 
+                                    "url": "\(downloadLinkOfLinux)" 
                                 }
                                 """
                                 logger.debug("\(button1)")
@@ -103,13 +118,16 @@ while true {
                                     "reply_markup": { 
                                         "inline_keyboard": [
                                             [
-                                                \(button1)
+                                                \(button1),
+                                                \(button2)
                                             ]
                                         ]
                                     },
                                     "parse_mode": "HTML"
                                 }
                                 """)
+
+                                print(request.body.debugDescription)
 
                                 // TODO: There are a lots of telegram bot features to explore.
                                 httpClient.execute(request: request).whenComplete { result in
