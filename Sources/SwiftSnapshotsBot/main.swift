@@ -80,11 +80,13 @@ while true {
                                 // if date.toISODate(region: currentRegion)!.compare(.isToday) {
                                 logger.info("Is today")
                                 let TextBody: String = """
-                                Click the button below to download:
+                                New Release: 
 
-                                <b>macOS:</b> \(downloadLink)
+                                *macOS:* 
+                                `\(downloadLink)`
 
-                                <b>Ubuntu 20.04:</b> \(downloadLinkOfLinux)
+                                *Ubuntu 20\\\\.04:* 
+                                `\(downloadLinkOfLinux)`
 
                                 """
                                 /// macOS: [link](\(downloadLink))
@@ -123,7 +125,7 @@ while true {
                                             ]
                                         ]
                                     },
-                                    "parse_mode": "HTML"
+                                    "parse_mode": "MarkdownV2"
                                 }
                                 """)
 
