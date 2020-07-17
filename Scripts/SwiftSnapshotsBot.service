@@ -1,0 +1,9 @@
+[Unit]
+Description=SwiftSnapshotsBot 
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/SwiftSnapshotsBot {{TOKEN}}
+
+[Install]
+WantedBy=multi-user.target
