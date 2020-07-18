@@ -18,9 +18,9 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-log.git", from: "1.2.0"),
         .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.3.0"),
         .package(url: "https://github.com/Maxim-Inv/SwiftDate.git", .branch("master")),
+        .package(url: "https://github.com/vapor/console-kit", from: "4.0.0"),
 
         // Beta version, need to switch to stable when it official release.
-        .package(url: "https://github.com/vapor/console-kit", from: "4.0.0-rc.1"),
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.
