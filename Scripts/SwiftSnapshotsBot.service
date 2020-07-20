@@ -3,7 +3,7 @@ Description=SwiftSnapshotsBot
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/bin/SwiftSnapshotsBot {{TOKEN}}
+ExecStart=/usr/local/bin/SwiftSnapshotsBot 
 
 [Install]
 WantedBy=multi-user.target

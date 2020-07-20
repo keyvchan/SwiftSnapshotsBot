@@ -19,7 +19,8 @@ let logger = Logger(label: "keyvchan")
 let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
 
 // TODO: Get all arguments from a specific file or command line.
-let API_Token: String = CommandLine.arguments[1]
+// let API_Token: String = CommandLine.arguments[1]
+let API_Token: String = ProcessInfo.processInfo.environment["SWIFT_SNAPSHOTS_BOT_API_TOKEN"]!
 let ChatID: String = "-1001405329947"
 let Action: String = "sendMessage"
 
@@ -38,7 +39,7 @@ SwiftWebPage.headers.add(name: "User-Agent", value: "Swift HTTPClient")
 while true {
     // TODO:
     //      - Make code more readable, such as extracting code to smaller functions.
-    //      - Make full use of swift-log. The log should human readable.
+    //      - Make full use of swift-log. The log should be human readable.
     httpClient.execute(request: SwiftWebPage).whenComplete { result in
         switch result {
         case let .failure(error):
