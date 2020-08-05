@@ -2,7 +2,6 @@
 Description=SwiftSnapshotsBot 
 
 [Service]
-Type=oneshot
 ExecStart=/usr/local/bin/SwiftSnapshotsBot 
 Restart=always
 
