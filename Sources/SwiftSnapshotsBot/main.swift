@@ -14,7 +14,8 @@ LoggingSystem.bootstrap { _ in
     return consoleLogger
 }
 
-let logger = Logger(label: "keyvchan")
+var logger = Logger(label: "keyvchan")
+logger.logLevel = .error
 
 let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
 
