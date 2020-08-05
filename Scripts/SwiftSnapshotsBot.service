@@ -4,6 +4,7 @@ Description=SwiftSnapshotsBot
 [Service]
 Type=oneshot
 ExecStart=/usr/local/bin/SwiftSnapshotsBot 
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
