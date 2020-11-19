@@ -6,8 +6,9 @@ import Foundation
 import Logging
 import SwiftDate
 import SwiftSoup
+import SwiftyJSON
 
-// TODO: Using logger to print nice log to console.
+// Using logger to print log to console.
 LoggingSystem.bootstrap { _ in
     let console = Terminal()
     let consoleLogger = ConsoleLogger(label: "keyvchan", console: console)

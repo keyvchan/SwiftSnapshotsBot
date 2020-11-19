@@ -19,6 +19,7 @@ let package = Package(
         .package(url: "https://github.com/scinfu/SwiftSoup.git", from: "2.3.0"),
         .package(url: "https://github.com/Maxim-Inv/SwiftDate.git", .branch("master")),
         .package(url: "https://github.com/vapor/console-kit", from: "4.0.0"),
+        .package(url: "https://github.com/SwiftyJSON/SwiftyJSON.git", from: "5.0.0"),
 
         // Beta version, need to switch to stable when it official release.
     ],
@@ -33,6 +34,7 @@ let package = Package(
                 .product(name: "SwiftSoup", package: "SwiftSoup"),
                 .product(name: "SwiftDate", package: "SwiftDate"),
                 .product(name: "ConsoleKit", package: "console-kit"),
+                .product(name: "SwiftyJSON", package: "SwiftyJSON")
             ]
         ),
         .testTarget(

@@ -1,0 +1,28 @@
+{
+  "list": [
+    {
+      "name": "swift snapshots macos",
+      "url": "https://swift.org/download/",
+      "link": {
+        "type": "css-selector",
+        "content": "body main #trunk-development-master+p+table tbody tr td span a"
+      },
+      "time": {
+        "type": "css-selector",
+        "content": "body main #trunk-development-master+p+table tbody tr td time"
+      }
+    },
+    {
+      "name": "swift snapshots linux",
+      "url": "https://swift.org/download/",
+      "link": {
+        "type": "css-selector",
+        "content": "body main #trunk-development-master+p+table tbody tr+tr+tr+tr td span a"
+      },
+      "time": {
+        "type": "css-selector",
+        "content": "body main #trunk-development-master+p+table tbody tr td time"
+      }
+    }
+  ]
+}
